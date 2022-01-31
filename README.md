@@ -1,4 +1,4 @@
-# kōsu
+# kōsu / コース
 
 [![PyPI status](https://img.shields.io/pypi/status/kosu.svg)](https://pypi.org/project/kosu/)
 [![PyPI versions](https://img.shields.io/pypi/pyversions/kosu.svg)](https://pypi.org/project/kosu/)
