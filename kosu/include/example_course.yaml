@@ -1,0 +1,24 @@
+title: Introduction to Python
+environment: myenv  # Optional name of environment (otherwise uses course name)
+conda:
+  - requests  # Additional things to add to the env using conda.
+pip:
+  - tqdm  # Additional things to add using pip.
+data:
+  - tops.txt  # Will be copied into the folder from the AWS S3.
+references:
+  - useful.pdf
+curriculum:  # List each day. This goes into the README template.
+  1:
+    - Installation and setup
+    - Introductions
+    - Intro_to_Python.ipynb
+    - Check out and feedback
+  2:
+    - Check in and review
+    - Intro_to_Matplotlib.ipynb
+    - Check out and feedback
+extras:  # These will be listed in the Curriculum.
+  - Intro_to_NumPy.ipynb
+demos:  # These will NOT be listed in the Curriculum.
+  - Interesting_notebook.ipynb

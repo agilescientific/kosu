@@ -1,0 +1,4 @@
+s3-bucket: "mybucket"
+s3-path: "data"  # Optional
+all:  # What --all will process.
+  - example-course

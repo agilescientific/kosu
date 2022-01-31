@@ -1,0 +1,17 @@
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - pip
+  - numpy>=1.19
+  - scipy>=1.7
+  - matplotlib>=3.5
+  - jupyter
+  - jupyterlab
+  - ipykernel
+  - ipywidgets
+  - pandas>=1.4
+  - scikit-learn>=1.0
+  - pip:
+    - python-certifi-win32
