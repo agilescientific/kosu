@@ -70,11 +70,16 @@ def init(yes):
         # Make a sample course and other files.
         target = pathlib.Path('.').resolve()
         shutil.copyfile(KOSU['path'] / 'include' / 'example_course.yaml', target / 'example_course.yaml')
-        shutil.copyfile(KOSU['path'] / 'include' / 'example_config.yaml', target / 'example_config.yaml')
+        shutil.copyfile(KOSU['path'] / 'include' / '.kosu.yaml', target / '.kosu.yaml')
         shutil.copyfile(KOSU['path'] / 'include' / 'environment.yaml', target / 'environment.yaml')
         shutil.copyfile(KOSU['path'] / 'include' / 'useful.pdf', target / 'references'/ 'useful.pdf')
         shutil.copyfile(KOSU['path'] / 'include' / 'README.md', target / 'templates' / 'README.md')
-        click.echo("Created example course and config files.")
+        shutil.copyfile(KOSU['path'] / 'include' / 'Interesting_notebook.ipynb', target / 'prod' / 'Interesting_notebook.ipynb')
+        shutil.copyfile(KOSU['path'] / 'include' / 'Intro_to_Matplotlib.ipynb', target / 'prod' / 'Intro_to_Matplotlib.ipynb')
+        shutil.copyfile(KOSU['path'] / 'include' / 'Intro_to_NumPy.ipynb', target / 'prod' / 'Intro_to_NumPy.ipynb')
+        shutil.copyfile(KOSU['path'] / 'include' / 'Intro_to_Python.ipynb', target / 'prod' / 'Intro_to_Python.ipynb')
+        click.echo("Created example course and config files.\n")
+        click.echo("See .kosu.yaml for configuration options.")
 
     return
 
@@ -209,13 +214,13 @@ def build_course(course, clean, zip, upload, clobber):
     """
     Compiles the required files into a course repo, which
     will be zipped by default.
-    
+
     Args:
         course (str): The course to build.
         clean (bool): Whether to remove the build files.
         zip (bool): Whether to create the zip file for the course repo (or to save it if uploading).
         upload (bool): Whether to attempt to upload the ZIP to AWS.
-        clobber (bool): Whether to overwrite existing ZIP file and build directory. 
+        clobber (bool): Whether to overwrite existing ZIP file and build directory.
 
     Returns:
         dict. Environment dictionary.
