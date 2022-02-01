@@ -5,7 +5,7 @@ conda:
 pip:
   - tqdm  # Additional things to add using pip.
 data:
-  - tops.txt  # Will be copied into the folder from the AWS S3.
+  - tops.txt  # Will be copied into the folder from the AWS S3 bucket.
 references:
   - useful.pdf
 curriculum:  # List each day. This goes into the README template.

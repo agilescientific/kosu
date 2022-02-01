@@ -125,7 +125,7 @@ def publish(course, all):
     courses = get_courses(course, all)
 
     for i, course in enumerate(courses):
-        click.echo(f"Publishing {course} ({i+1}/{len(courses)+1}). Ctrl-C to abort.")
+        click.echo(f"Publishing {course} ({i+1}/{len(courses)}). Ctrl-C to abort.")
         _ = build_course(course, clean=True, zip=True, upload=True, clobber=True)
     click.echo(f"Finished.\n")
 
@@ -145,7 +145,7 @@ def test(course, all, environment):
     envs = []
     for i, course in enumerate(courses):
         clean = 1 - environment  # Clean if we're not doing env.
-        click.echo(f"Testing {course} ({i+1}/{len(courses)+1}). Ctrl-C to abort.")
+        click.echo(f"Testing {course} ({i+1}/{len(courses)}). Ctrl-C to abort.")
         env = build_course(course, clean=clean, zip=False, upload=False, clobber=True)
         envs.append(env)
     click.echo(f"Finished.\n")
@@ -183,7 +183,7 @@ def build(course, clean, zip, upload, clobber, all):
     courses = get_courses(course, all)
 
     for i, course in enumerate(courses):
-        click.echo(f"Building {course} ({i+1}/{len(courses)+1}). Ctrl-C to abort.")
+        click.echo(f"Building {course} ({i+1}/{len(courses)}). Ctrl-C to abort.")
         _ = build_course(course, clean, zip, upload, clobber)
     click.echo(f"Finished.\n")
 
@@ -202,10 +202,10 @@ def get_courses(course, all):
         raise click.BadOptionUsage('--all', message)
     elif all and (course is None):
         excl = ['environment.yaml']
-        all_courses = [c.removesuffix('yaml') for c in glob.glob("*.yaml") if c not in excl]
+        all_courses = [c.removesuffix('.yaml') for c in glob.glob("*.yaml") if c not in excl]
         courses = KOSU.get('all', all_courses)
     else:
-        courses = [course]
+        courses = [course.removesuffix('.yaml')]
 
     return courses
 
@@ -415,12 +415,15 @@ def build_data(path, config):
             raise TypeError("No data_url or s3-bucket specified.")
         data_url = f"https://{s3bucket}.s3.amazonaws.com/{s3path}{'/' if s3path else ''}"
 
+    print(data_url)
+
     if datasets := config.get('data'):
         for fname in datasets:
             click.echo('+', nl=False)
             fpath = data_path / fname
             if not fpath.exists():
                 url = f"{data_url}{fname}"
+                print(url)
                 urlretrieve(url, fpath)
             if fpath.suffix == '.zip':
                 # Inflate and delete the zip.
