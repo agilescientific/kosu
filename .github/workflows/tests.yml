@@ -27,4 +27,4 @@ jobs:
         pip install --use-feature=in-tree-build .[test]
     - name: Test with pytest
       run: |
-        pytest --cov
+        python run_tests.py
