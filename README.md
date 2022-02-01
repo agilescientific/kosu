@@ -1,5 +1,6 @@
 # kōsu / コース
 
+[![Tests](https://github.com/agile-geoscience/kosu/actions/workflows/tests.yml/badge.svg)](https://github.com/agile-geoscience/kosu/actions/workflows/tests.yml)
 [![PyPI status](https://img.shields.io/pypi/status/kosu.svg)](https://pypi.org/project/kosu/)
 [![PyPI versions](https://img.shields.io/pypi/pyversions/kosu.svg)](https://pypi.org/project/kosu/)
 [![PyPI license](https://img.shields.io/pypi/l/kosu.svg)](https://pypi.org/project/kosu/)
