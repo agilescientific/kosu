@@ -6,6 +6,8 @@ pip:
   - tqdm  # Additional things to add using pip.
 data:
   - tops.txt  # Will be copied into the folder from the AWS S3 bucket.
+scripts:
+  - example.py  # Copied from scripts into master and notebooks folders.
 references:
   - useful.pdf
 curriculum:  # List each day. This goes into the README template.

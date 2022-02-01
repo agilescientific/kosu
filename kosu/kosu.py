@@ -1,4 +1,3 @@
-#-*- coding: utf-8 -*-
 """
 Author: Agile Scientific
 Licence: Apache 2.0
@@ -79,6 +78,8 @@ def init(yes):
         shutil.copyfile(KOSU['path'] / 'include' / 'Intro_to_Matplotlib.ipynb', target / 'prod' / 'Intro_to_Matplotlib.ipynb')
         shutil.copyfile(KOSU['path'] / 'include' / 'Intro_to_NumPy.ipynb', target / 'prod' / 'Intro_to_NumPy.ipynb')
         shutil.copyfile(KOSU['path'] / 'include' / 'Intro_to_Python.ipynb', target / 'prod' / 'Intro_to_Python.ipynb')
+        shutil.copyfile(KOSU['path'] / 'include' / 'agile_logo.png', target / 'images' / 'agile_logo.png')
+        shutil.copyfile(KOSU['path'] / 'include' / 'example.py', target / 'scripts' / 'example.py')
         click.secho("Created example course and config files.\n", fg="green", bold=True)
         click.secho("See .kosu.yaml for configuration options.", fg="cyan")
 
@@ -291,6 +292,9 @@ def build_course(course, clean, zip, upload, clobber):
         success = upload_zip(zipped)
         if success:
             click.secho(f"Uploaded {zipped}", fg="green")
+            link  = f"https://{KOSU['s3-bucket']}.s3.amazonaws.com/"
+            link += f"{course}.zip"
+            click.secho(f"File link: {link}", fg="green")
         if not zip:
             pathlib.Path(f'{course}.zip').unlink()
 
@@ -416,8 +420,6 @@ def build_data(path, config):
             raise TypeError("No data_url or s3-bucket specified.")
         data_url = f"https://{s3bucket}.s3.amazonaws.com/{s3path}{'/' if s3path else ''}"
 
-    print(data_url)
-
     if datasets := config.get('data'):
         for fname in datasets:
             click.secho('+',fg="cyan", nl=False)
@@ -452,11 +454,11 @@ def upload_zip(file_name, bucket=None, object_name=None):
     if bucket is None:
         bucket = KOSU['s3-bucket']
 
-    # If S3 object_name was not specified, use file_name
+    # If S3 object_name was not specified, use file_name.
     if object_name is None:
         object_name = os.path.basename(file_name)
 
-    # Upload the file
+    # Upload the file.
     s3_client = boto3.client('s3')
     try:
         args = {'ACL':'public-read'}

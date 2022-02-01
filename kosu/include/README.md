@@ -32,4 +32,4 @@ Now you can start a notebook server with `jupyter notebook` and you're all set!
 
 ---
 
-agilescientific.com
+:snake: A day without Python is like a day without sunshine!
