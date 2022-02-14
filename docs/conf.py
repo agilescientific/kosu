@@ -25,7 +25,7 @@ author = 'Agile Scientific'
 extensions = [
     'sphinx.ext.githubpages',
     'sphinx.ext.napoleon',
-    'myst_nb',
+    'myst_parser',
     'sphinx.ext.coverage', 
 ]
  
