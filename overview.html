@@ -1,0 +1,350 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Using kosu" href="usage.html" /><link rel="prev" title="Installation" href="installation.html" />
+
+    <link rel="shortcut icon" href="_static/favicon.ico"/><meta name="generator" content="sphinx-4.4.0, furo 2022.01.02"/>
+        <title>Overview - kosu documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=df49af52631e7917044a9c21a57f7b83170a6dd0" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=fade93df149f7c5fedb3ff897f799dc7d283b420" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">kosu  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand centered" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/kosu_logo.png" alt="Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">User guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Using <code class="docutils literal notranslate"><span class="pre">kosu</span></code></a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Other resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/kosu/">PyPI releases</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/agile-geoscience/kosu">Code in GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/agile-geoscience/kosu/issues">Issue tracker</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://code.agilescientific.com/community">Community guidelines</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://code.agilescientific.com">Agile's software</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www.agilescientific.com">Agile's website</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<section id="main-features">
+<h2>Main features<a class="headerlink" href="#main-features" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>There is one main command, <code class="docutils literal notranslate"><span class="pre">kosu</span></code>, which execute one of several sub-commands:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">build</span></code> — Build a course or courses. Reads the course’s YAML file, finds and processes the notebooks in <code class="docutils literal notranslate"><span class="pre">prod</span></code>, compiles the course directory, and compresses everything into a ZIP file for course participants. This command has several options, see <code class="docutils literal notranslate"><span class="pre">kosu</span> <span class="pre">build</span> <span class="pre">--help</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">clean</span></code> — Remove the build files associated with a course or courses.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">init</span></code> — Initialize a directory to start using kosu.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">publish</span></code> — Publish a course or courses to AWS.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">test</span></code> — Test that a course builds.</p></li>
+</ul>
+</li>
+<li><p>You may only ever need to use <code class="docutils literal notranslate"><span class="pre">init</span></code> once, when you first start using <code class="docutils literal notranslate"><span class="pre">kosu</span></code>.</p></li>
+<li><p>There is a global control file, <code class="docutils literal notranslate"><span class="pre">.kosu.yaml</span></code>, which contains some parameters you will want to set and maintain.</p></li>
+<li><p>All of the other commands take either a single course name, or the <code class="docutils literal notranslate"><span class="pre">--all</span></code> flag, which applies the command to all the courses listed in <code class="docutils literal notranslate"><span class="pre">.kosu.yaml</span></code> under the <code class="docutils literal notranslate"><span class="pre">all</span></code> key.</p></li>
+<li><p>There is one control file per course, e.g. <code class="docutils literal notranslate"><span class="pre">geocomp.yaml</span></code>. This file contains the metadata for the course, including the curriculum and a list of its notebooks.</p></li>
+<li><p>There is one main, common environment file, <code class="docutils literal notranslate"><span class="pre">environment.yaml</span></code>. This contains packages to be installed for (i.e. common to)  all courses. A course’s YAML control file lists any other packages to install for that class.</p></li>
+</ul>
+</section>
+<section id="course-project-structure">
+<h2>Course project structure<a class="headerlink" href="#course-project-structure" title="Permalink to this headline">¶</a></h2>
+<p>The tool is designed to be used in a directory with the following structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>foo
+├── environment.yaml
+├── example_course.yaml
+├── images
+│   └── agile_logo.png
+├── .kosu.yaml
+├── prod
+│   ├── Interesting_notebook.ipynb
+│   ├── Intro_to_Matplotlib.ipynb
+│   ├── Intro_to_NumPy.ipynb
+│   └── Intro_to_Python.ipynb
+├── references
+│   └── useful.pdf
+├── scripts
+│   └── example.py
+└── templates
+    └── README.md
+</pre></div>
+</div>
+</section>
+<section id="what-happens-during-course-compilation">
+<h2>What happens during course compilation?<a class="headerlink" href="#what-happens-during-course-compilation" title="Permalink to this headline">¶</a></h2>
+<p>The course folder is built by <code class="docutils literal notranslate"><span class="pre">kosu</span> <span class="pre">build</span> <span class="pre">example_course</span></code> in the following way:</p>
+<ul class="simple">
+<li><p>A course folder is created in a (new if necessary) folder called <code class="docutils literal notranslate"><span class="pre">build</span></code>.</p></li>
+<li><p>A course README is built by placing the <code class="docutils literal notranslate"><span class="pre">curriculum</span></code> in the README template.</p></li>
+<li><p>The notebooks in the curriculum are processed as described below.</p></li>
+<li><p>Images required by the notebooks (detected automatically) are copied into an <code class="docutils literal notranslate"><span class="pre">images</span></code> folder.</p></li>
+<li><p>Scripts are copied into <code class="docutils literal notranslate"><span class="pre">master</span></code> and <code class="docutils literal notranslate"><span class="pre">notebooks</span></code> so they can be imported into any notebook.</p></li>
+<li><p>References are copied over into a <code class="docutils literal notranslate"><span class="pre">references</span></code> folder.</p></li>
+<li><p>We almost always import data from Amazon S3, making data files easy to detect. Accordingly, we check that data files mentioned in the notebooks are present in the S3 bucket.</p></li>
+<li><p>If some data files are to be included in the course repo, they are downloaded from the bucket and unzipped if necessary.</p></li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">conda</span></code> environment file is constructed from the various requirements in the global env file and the course control YAML file. (Dependencies are not yet detected from the notebooks.)</p></li>
+<li><p>The course folder is optionally zipped and optionally uploaded to S3.</p></li>
+<li><p>Build files are optionally cleaned up.</p></li>
+</ul>
+<p>Jupyter Notebooks in the <code class="docutils literal notranslate"><span class="pre">prod</span></code> directory are processed in various ways:</p>
+<ul class="simple">
+<li><p>Two copies of the Notebooks are included in the course folder: one goes into the <code class="docutils literal notranslate"><span class="pre">master</span></code> folder, the other into <code class="docutils literal notranslate"><span class="pre">notebooks</span></code>. Students use the latter in the class.</p></li>
+<li><p>Cells with <code class="docutils literal notranslate"><span class="pre">exercise</span></code> tags are highlighted in green in the student notebooks.</p></li>
+<li><p>Cells with <code class="docutils literal notranslate"><span class="pre">info</span></code> tags are highlighted in blue in the student notebooks.</p></li>
+<li><p>Cells with <code class="docutils literal notranslate"><span class="pre">hide</span></code> tags are hidden in the student notebooks.</p></li>
+<li><p>Cell outputs are deleted in the student notebooks.</p></li>
+</ul>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="usage.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Using <code class="docutils literal notranslate"><span class="pre">kosu</span></code></div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="installation.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Installation</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2022, Agile Scientific |
+          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> | Created using Sphinx & Furo
+            | <a class="muted-link" href="_sources/overview.md.txt"
+               rel="nofollow">
+              Show Source
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Contents
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Overview</a><ul>
+<li><a class="reference internal" href="#main-features">Main features</a></li>
+<li><a class="reference internal" href="#course-project-structure">Course project structure</a></li>
+<li><a class="reference internal" href="#what-happens-during-course-compilation">What happens during course compilation?</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    </body>
+</html>
