@@ -29,6 +29,15 @@ from .customize import process_notebook
 
 env = Environment(loader=FileSystemLoader('templates'))
 
+
+def removesuffix(s, suffix):
+    """
+    Remove the suffix from a string, if it exists.
+    Avoid needing Python 3.9 just for this.
+    """
+    return s[:-len(suffix)] if s.endswith(suffix) else s
+
+
 def get_script_dir(follow_symlinks=True):
     if getattr(sys, 'frozen', False):
         path = os.path.abspath(sys.executable)
@@ -204,10 +213,10 @@ def get_courses(course, all):
         raise click.BadOptionUsage('--all', message)
     elif all and (course is None):
         excl = ['environment.yaml']
-        all_courses = [c.removesuffix('.yaml') for c in glob.glob("*.yaml") if c not in excl]
+        all_courses = [removesuffix(c, '.yaml') for c in glob.glob("*.yaml") if c not in excl]
         courses = KOSU.get('all', all_courses)
     else:
-        courses = [course.removesuffix('.yaml')]
+        courses = [removesuffix(course, '.yaml')]
 
     return courses
 
@@ -228,7 +237,7 @@ def build_course(course, clean, zip, upload, clobber):
         dict. Environment dictionary.
     """
     # Read the YAML control file.
-    with open(f"{course.removesuffix('.yaml')}.yaml", 'rt') as f:
+    with open(f"{removesuffix(course, '.yaml')}.yaml", 'rt') as f:
         try:
             config = yaml.safe_load(f)
         except yaml.YAMLError as e:
