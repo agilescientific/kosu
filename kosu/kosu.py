@@ -448,7 +448,7 @@ def upload_zip(file_name, bucket=None, object_name=None):
     """
     if not AWS_AVAILABLE:
         m = "AWS upload is not available. You need to install boto3 and botocore, "
-        m += "and set up AWS credentials."
+        m += "and set up AWS credentials. See the documentation for more information."
         raise Exception(m)
 
     if bucket is None:

@@ -15,6 +15,12 @@ To install kosu:
 
     pip install kosu
 
+Or if you want to upload to S3 later, use the `aws` option like so:
+
+    pip install kosu[aws]
+
+See [the documentation](https://code.agilescientific.com/kosu) for more information.
+
 
 ## Getting started
 
