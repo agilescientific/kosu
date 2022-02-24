@@ -11,7 +11,6 @@ from urllib.request import urlretrieve
 import inspect
 import sys
 import glob
-import click
 
 import requests
 import click
@@ -69,6 +68,11 @@ def init(yes):
     """
     Initialize a course or group of courses.
     """
+    if pathlib.Path('.kosu.yaml').exists():
+        message = "There's already a .kosu.yml file in this directory. "
+        message += "Please run this command in an empty directory."
+        raise click.ClickException(message)
+
     message = "This will create a new course collection in the current directory. Are you sure?"
     if yes or click.confirm(message, default=False, abort=True):
         # Make folders for content.
