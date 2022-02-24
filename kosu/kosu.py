@@ -76,7 +76,7 @@ def init(yes):
     message = "This will create a new course collection in the current directory. Are you sure?"
     if yes or click.confirm(message, default=False, abort=True):
         # Make folders for content.
-        folders = ['prod', 'images', 'references', 'scripts', 'templates']
+        folders = ['notebooks', 'images', 'references', 'scripts', 'templates']
         for folder in folders:
             _ = pathlib.Path(folder).mkdir(exist_ok=True)
 
@@ -87,11 +87,11 @@ def init(yes):
         shutil.copyfile(KOSU['path'] / 'include' / 'environment.yaml', target / 'environment.yaml')
         shutil.copyfile(KOSU['path'] / 'include' / 'useful.pdf', target / 'references'/ 'useful.pdf')
         shutil.copyfile(KOSU['path'] / 'include' / 'README.md', target / 'templates' / 'README.md')
-        shutil.copyfile(KOSU['path'] / 'include' / 'Interesting_notebook.ipynb', target / 'prod' / 'Interesting_notebook.ipynb')
-        shutil.copyfile(KOSU['path'] / 'include' / 'Intro_to_Matplotlib.ipynb', target / 'prod' / 'Intro_to_Matplotlib.ipynb')
-        shutil.copyfile(KOSU['path'] / 'include' / 'Intro_to_NumPy.ipynb', target / 'prod' / 'Intro_to_NumPy.ipynb')
-        shutil.copyfile(KOSU['path'] / 'include' / 'Intro_to_Python.ipynb', target / 'prod' / 'Intro_to_Python.ipynb')
-        shutil.copyfile(KOSU['path'] / 'include' / 'agile_logo.png', target / 'images' / 'agile_logo.png')
+        shutil.copyfile(KOSU['path'] / 'include' / 'Interesting_notebook.ipynb', target / 'notebooks' / 'Interesting_notebook.ipynb')
+        shutil.copyfile(KOSU['path'] / 'include' / 'Intro_to_Matplotlib.ipynb', target / 'notebooks' / 'Intro_to_Matplotlib.ipynb')
+        shutil.copyfile(KOSU['path'] / 'include' / 'Intro_to_NumPy.ipynb', target / 'notebooks' / 'Intro_to_NumPy.ipynb')
+        shutil.copyfile(KOSU['path'] / 'include' / 'Intro_to_Python.ipynb', target / 'notebooks' / 'Intro_to_Python.ipynb')
+        shutil.copyfile(KOSU['path'] / 'include' / 'example.png', target / 'images' / 'example.png')
         shutil.copyfile(KOSU['path'] / 'include' / 'example.py', target / 'scripts' / 'example.py')
         click.secho("Created example course and config files.\n", fg="green", bold=True)
         click.secho("See .kosu.yaml for configuration options.", fg="cyan")
@@ -280,14 +280,14 @@ def build_course(course, clean, zip, upload, clobber):
     if scripts := config.get('scripts'):
         for script in scripts:
             for p in paths:
-                shutil.copyfile(pathlib.Path('scripts') / script, p / script)
+                shutil.copyfile(pathlib.Path(KOSU['scripts-source']) / script, p / script)
 
     # Make the references folder.
     if refs := config.get('references'):
-        ref_path = path.joinpath('references')
+        ref_path = path.joinpath(KOSU['references-target'])
         ref_path.mkdir()
         for fname in refs:
-            shutil.copyfile(pathlib.Path('references') / fname, ref_path / fname)
+            shutil.copyfile(pathlib.Path(KOSU['references-source']) / fname, ref_path / fname)
 
     # Make the environment.yaml file.
     env = build_environment(path, config)
@@ -326,12 +326,12 @@ def build_notebooks(path, config):
     extras (which are listed in the README), and demos (which are not).
     """
     # Make the various directories.
-    m_path = path.joinpath('master')
+    m_path = path.joinpath(KOSU['master-target'])
     m_path.mkdir()
-    nb_path = path.joinpath('notebooks')
+    nb_path = path.joinpath(KOSU['notebooks-target'])
     nb_path.mkdir()
     if config.get('demos'):
-        demo_path = path.joinpath('demos')
+        demo_path = path.joinpath(KOSU['demos-target'])
         demo_path.mkdir()
     else:
         demo_path = None
@@ -343,7 +343,7 @@ def build_notebooks(path, config):
     data_urls_to_check = []
     click.secho('Processing notebooks ',fg="cyan" , nl=False)
     for notebook in notebooks:
-        infile = pathlib.Path('prod') / notebook
+        infile = pathlib.Path(KOSU['notebooks-source']) / notebook
         outfile = nb_path / notebook
         images, data_urls = process_notebook(infile, outfile)
         images_to_copy.extend(images)
@@ -354,7 +354,7 @@ def build_notebooks(path, config):
         click.secho('+', fg="cyan", nl=False)
     notebooks = config.get('demos', list())
     for notebook in notebooks:
-        infile = pathlib.Path('prod') / notebook
+        infile = pathlib.Path(KOSU['notebooks-source']) / notebook
         outfile = demo_path / notebook
         images, data_urls = process_notebook(infile, outfile, demo=True)
         images_to_copy.extend(images)
@@ -365,10 +365,10 @@ def build_notebooks(path, config):
         click.secho('+', fg="cyan", nl=False)
     click.secho()
     if images_to_copy:
-        img_path = path.joinpath('images')
+        img_path = path.joinpath(KOSU['images-target'])
         img_path.mkdir()
         for image in images_to_copy:
-            shutil.copyfile(pathlib.Path('images') / image, img_path / image)
+            shutil.copyfile(pathlib.Path(KOSU['images-source']) / image, img_path / image)
 
     return m_path, nb_path, demo_path, data_urls_to_check
 
@@ -439,7 +439,6 @@ def build_data(path, config):
             fpath = data_path / fname
             if not fpath.exists():
                 url = f"{data_url}{fname}"
-                print(url)
                 urlretrieve(url, fpath)
             if fpath.suffix == '.zip':
                 # Inflate and delete the zip.
