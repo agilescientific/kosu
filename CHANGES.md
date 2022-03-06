@@ -17,7 +17,7 @@
 
 ## 0.1.2 &mdash; Feb 2022
 
-- Added color to the terminal messages, fixing [#7](https://github.com/agile-geoscience/kosu/issues/7). Thank you to [@Arunodhai](https://github.com/Arunodhai) for this enhancement.
+- Added color to the terminal messages, fixing [#7](https://github.com/agilescientific/kosu/issues/7). Thank you to [@Arunodhai](https://github.com/Arunodhai) for this enhancement.
 
 
 ## 0.1.1 &mdash; 31 Jan 2022

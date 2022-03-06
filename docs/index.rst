@@ -3,7 +3,7 @@
 .. container:: noclass
    :name: forkongithub
 
-   `Fork on GitHub <https://github.com/agile-geoscience/kosu>`_
+   `Fork on GitHub <https://github.com/agilescientific/kosu>`_
 
 
 kosu: Build and maintain courses
@@ -75,8 +75,8 @@ Indices and tables
     :hidden:
 
     PyPI releases <https://pypi.org/project/kosu/>
-    Code in GitHub <https://github.com/agile-geoscience/kosu>
-    Issue tracker <https://github.com/agile-geoscience/kosu/issues>
+    Code in GitHub <https://github.com/agilescientific/kosu>
+    Issue tracker <https://github.com/agilescientific/kosu/issues>
     Community guidelines <https://code.agilescientific.com/community>
     Agile's software <https://code.agilescientific.com>
     Agile's website <https://www.agilescientific.com>
