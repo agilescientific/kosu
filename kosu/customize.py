@@ -54,9 +54,9 @@ def style_cells(notebook, style):
     Returns dict with template cells.
     """
     styles = {
-        'exercise': "<div style=\"background: #e0ffe0; border: solid 2px #d0f0d0; border-radius:3px; padding: 1em; color: darkgreen\">\n",
-        'advanced': "<div style=\"background: #fff0e0; border: solid 2px #ffe7d0; border-radius:3px; padding: 1em; color: chocolate\">\n",
-        'info': "<div style=\"background: #e0f0ff; border: solid 2px #d0e0f0; border-radius:3px; padding: 1em; color: navy\">\n",
+        'exercise': "<div style=\"background: #e0ffe0; border: solid 2px #d0f0d0; border-radius:3px; padding: 1em; color: darkgreen\">\n\n",
+        'advanced': "<div style=\"background: #fff0e0; border: solid 2px #ffe7d0; border-radius:3px; padding: 1em; color: chocolate\">\n\n",
+        'info': "<div style=\"background: #e0f0ff; border: solid 2px #d0e0f0; border-radius:3px; padding: 1em; color: navy\">\n\n",
     }
 
     clean = []
