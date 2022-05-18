@@ -73,8 +73,9 @@ def init(yes):
         message += "Please run this command in an empty directory."
         raise click.ClickException(message)
 
-    message = "This will create a new course collection in the current directory. Are you sure?"
-    if yes or click.confirm(message, default=False, abort=True):
+    message = "❓ This will create a new course collection in the current directory. Are you sure?"
+    text = click.style(message, fg='bright_yellow')
+    if yes or click.confirm(text, default=False, abort=True):
         # Make folders for content.
         folders = ['notebooks', 'images', 'references', 'scripts', 'templates']
         for folder in folders:
@@ -109,7 +110,7 @@ def clean(course, all):
     courses = get_courses(course, all)
 
     for i, course in enumerate(courses):
-        click.secho(f"Cleaning {course} ({i+1} of {len(courses)}).", fg="cyan")
+        click.secho(f"🧹 Cleaning {course} ({i+1} of {len(courses)}).", fg="cyan", bold=True)
         try:
             shutil.rmtree(pathlib.Path('build').joinpath(course))
         except FileNotFoundError:
@@ -120,12 +121,12 @@ def clean(course, all):
             pass
         try:
             if not any(pathlib.Path('build').iterdir()):
-                click.secho(f"Removing build directory.", fg="red")
+                click.secho(f"✨ Removing build directory.", fg="red")
                 shutil.rmtree(pathlib.Path('build'))
                 break
         except:
             pass
-    click.secho(f"Finished.\n", fg="green")
+    click.secho(f"🚀 Finished.\n", fg="green")
 
     return
 
@@ -140,9 +141,9 @@ def publish(course, all):
     courses = get_courses(course, all)
 
     for i, course in enumerate(courses):
-        click.secho(f"Publishing {course} ({i+1}/{len(courses)}). Ctrl-C to abort.", fg="cyan")
+        click.secho(f"💥 Publishing {course} ({i+1}/{len(courses)}). Ctrl-C to abort.", fg="cyan", bold=True)
         _ = build_course(course, clean=True, zip=True, upload=True, clobber=True)
-    click.secho(f"Finished.\n", fg="green")
+    click.secho(f"🚀 Finished.\n", fg="green")
 
     return
 
@@ -160,10 +161,10 @@ def test(course, all, environment):
     envs = []
     for i, course in enumerate(courses):
         clean = 1 - environment  # Clean if we're not doing env.
-        click.secho(f"Testing {course} ({i+1}/{len(courses)}). Ctrl-C to abort.", fg="cyan")
+        click.secho(f"🧪 Testing {course} ({i+1}/{len(courses)}). Ctrl-C to abort.", fg="cyan", bold=True)
         env = build_course(course, clean=clean, zip=False, upload=False, clobber=True)
         envs.append(env)
-    click.secho(f"Finished.\n", fg="green")
+    click.secho(f"🚀 Finished.\n", fg="green")
 
     if environment:
         # Build the combined environment.
@@ -179,7 +180,7 @@ def test(course, all, environment):
         }
         with open('environment-all.yml', 'w') as f:
             f.write(yaml.dump(env, default_flow_style=False, sort_keys=False))
-        click.secho(f"Global environment file written.\n", fg="green")
+        click.secho(f"✅ Global environment file written.\n", fg="green")
 
     return
 
@@ -198,9 +199,9 @@ def build(course, clean, zip, upload, clobber, all):
     courses = get_courses(course, all)
 
     for i, course in enumerate(courses):
-        click.secho(f"Building {course} ({i+1}/{len(courses)}). Ctrl-C to abort.", fg="cyan")
+        click.secho(f"🔨 Building {course} ({i+1}/{len(courses)}). Ctrl-C to abort.", fg="cyan", bold=True)
         _ = build_course(course, clean, zip, upload, clobber)
-    click.secho(f"Finished.\n", fg="green")
+    click.secho(f"🚀 Finished.\n", fg="green")
 
     return
 
@@ -252,12 +253,14 @@ def build_course(course, clean, zip, upload, clobber):
     build_path = 'build'
     path = pathlib.Path(build_path).joinpath(course)
     if path.exists():
-        message = "The target directory exists and will be overwritten. Are you sure?"
-        if clobber or click.confirm(message, default=True, abort=True):
+        message = "❓ The target directory exists and will be overwritten. Are you sure?"
+        text = click.style(message, fg="bright_yellow")
+        if clobber or click.confirm(text, default=True, abort=True):
             shutil.rmtree(path)
     if pathlib.Path(f"{course}.zip").exists():
-        message = "The ZIP file exists and will be overwritten. Are you sure?"
-        if clobber or click.confirm(message, default=True, abort=True):
+        message = "❓ The ZIP file exists and will be overwritten. Are you sure?"
+        text = click.style(message, fg="bright_yellow")
+        if clobber or click.confirm(text, default=True, abort=True):
             pathlib.Path(f"{course}.zip").unlink()
 
     _ = path.mkdir(parents=True, exist_ok=True)
@@ -266,9 +269,9 @@ def build_course(course, clean, zip, upload, clobber):
     *paths, _, data_urls_to_check = build_notebooks(path, config)
 
     # Check the data files exist.
-    click.secho('Checking and downloading data ', fg="cyan", nl=False)
+    click.secho('🧐 Checking and downloading data ', fg="cyan", nl=False)
     for url in data_urls_to_check:
-        click.secho('.', fg="cyan", nl=False)
+        click.secho('■', fg="cyan", nl=False)
         if requests.head(url).status_code != 200:
             raise Exception(f"Missing data URL: {url}")
 
@@ -298,23 +301,23 @@ def build_course(course, clean, zip, upload, clobber):
     # Zip it.
     if zip or upload:
         zipped = shutil.make_archive(course, 'zip', root_dir=build_path, base_dir=course)
-        click.secho(f"Created {zipped}", fg="green")
+        click.secho(f"📁 Created {zipped}", fg="green")
 
     # Upload to AWS.
     if upload:
         success = upload_zip(zipped)
         if success:
-            click.secho(f"Uploaded {zipped}", fg="green")
+            click.secho(f"⬆️ Uploaded {zipped}", fg="green")
             link  = f"https://{KOSU['s3-bucket']}.s3.amazonaws.com/"
             link += f"{course}.zip"
-            click.secho(f"File link: {link}", fg="green")
+            click.secho(f"🔗 File link: {link}", fg="green")
         if not zip:
             pathlib.Path(f'{course}.zip').unlink()
 
     # Remove build.
     if clean:
         shutil.rmtree(path)
-        click.secho(f"Removed build files.", fg="red")
+        click.secho(f"✨ Removed build files.", fg="red")
 
     return env
 
@@ -341,7 +344,7 @@ def build_notebooks(path, config):
     notebooks += config.get('extras', list())
     images_to_copy = []
     data_urls_to_check = []
-    click.secho('Processing notebooks ',fg="cyan" , nl=False)
+    click.secho('📔 Processing notebooks ', fg="cyan", nl=False)
     for notebook in notebooks:
         infile = pathlib.Path(KOSU['notebooks-source']) / notebook
         outfile = nb_path / notebook
@@ -351,7 +354,7 @@ def build_notebooks(path, config):
         shutil.copyfile(infile, m_path / notebook)
         # Clear the outputs in the master file.
         _ = os.system("nbstripout {}".format(m_path / notebook))
-        click.secho('+', fg="cyan", nl=False)
+        click.secho('■', fg='cyan', nl=False)
     notebooks = config.get('demos', list())
     for notebook in notebooks:
         infile = pathlib.Path(KOSU['notebooks-source']) / notebook
@@ -362,7 +365,7 @@ def build_notebooks(path, config):
         shutil.copyfile(infile, m_path / notebook)
         # Clear the outputs in the master file.
         _ = os.system("nbstripout {}".format(m_path / notebook))
-        click.secho('+', fg="cyan", nl=False)
+        click.secho('■', fg='cyan', nl=False)
     click.secho()
     if images_to_copy:
         img_path = path.joinpath(KOSU['images-target'])
@@ -435,7 +438,7 @@ def build_data(path, config):
 
     if datasets := config.get('data'):
         for fname in datasets:
-            click.secho('+',fg="cyan", nl=False)
+            click.secho('■', fg='bright_cyan', nl=False)
             fpath = data_path / fname
             if not fpath.exists():
                 url = f"{data_url}{fname}"
