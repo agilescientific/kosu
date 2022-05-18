@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.5 &mdash; 18 May 2022
+
+- Improved the appearance of feedback messages, and added emojis.
+- Improved the rendering of `info` and `exercise` boxes in notebooks.
+- Implemented various CI and development updates.
+
+
 ## 0.1.4 &mdash; 24 Feb 2022
 
 - Added more parameters to `.kosu.yaml` so you can change which folders assets are both kept in and copied to in the build.
