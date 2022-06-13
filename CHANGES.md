@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.6 &mdash; 13 Jul 2022
+
+- Notebook kernel is changed to match the current course.
+
+
 ## 0.1.5 &mdash; 18 May 2022
 
 - Improved the appearance of feedback messages, and added emojis.

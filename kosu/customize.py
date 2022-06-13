@@ -110,6 +110,19 @@ def hide_toolbar(notebook):
     return notebook
 
 
+def change_kernel(notebook, kernel):
+    """
+    Vanillafy the kernelspec.
+    """
+    new_kernelspec = {
+        "display_name": f"{kernel}",
+        "language": "python",
+        "name": f"{kernel}",
+    }
+    notebook['metadata']['kernelspec'].update(new_kernelspec)
+    return notebook
+
+
 def process_notebook(infile,
                      outfile,
                      clear_input=False,  # Don't touch the input file.
@@ -120,6 +133,7 @@ def process_notebook(infile,
                      hidecode=True,
                      demo=False,  # If demo, remove exercises and enable demos.
                      data_url_stem=None,
+                     kernel=None,
                     ):
     """
     Loads an 'ipynb' file as a dict and performs cleaning tasks
@@ -146,6 +160,9 @@ def process_notebook(infile,
 
     if hidecode:
         notebook = hide_code(notebook)
+
+    if kernel is not None:
+        notebook = change_kernel(notebook, kernel)
 
     notebook = hide_toolbar(notebook)
 

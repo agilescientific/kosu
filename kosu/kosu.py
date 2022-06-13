@@ -307,7 +307,7 @@ def build_course(course, clean, zip, upload, clobber):
     if upload:
         success = upload_zip(zipped)
         if success:
-            click.secho(f"⬆️ Uploaded {zipped}", fg="green")
+            click.secho(f"⬆️  Uploaded {zipped}", fg="green")
             link  = f"https://{KOSU['s3-bucket']}.s3.amazonaws.com/"
             link += f"{course}.zip"
             click.secho(f"🔗 File link: {link}", fg="green")
@@ -342,13 +342,14 @@ def build_notebooks(path, config):
     all_items = [f for items in config['curriculum'].values() for f in items]
     notebooks = list(filter(lambda item: '.ipynb' in item, all_items))
     notebooks += config.get('extras', list())
+    kernel = config.get('environment', config['course']).lower()
     images_to_copy = []
     data_urls_to_check = []
     click.secho('📔 Processing notebooks ', fg="cyan", nl=False)
     for notebook in notebooks:
         infile = pathlib.Path(KOSU['notebooks-source']) / notebook
         outfile = nb_path / notebook
-        images, data_urls = process_notebook(infile, outfile)
+        images, data_urls = process_notebook(infile, outfile, kernel=kernel)
         images_to_copy.extend(images)
         data_urls_to_check.extend(data_urls)
         shutil.copyfile(infile, m_path / notebook)
@@ -359,7 +360,7 @@ def build_notebooks(path, config):
     for notebook in notebooks:
         infile = pathlib.Path(KOSU['notebooks-source']) / notebook
         outfile = demo_path / notebook
-        images, data_urls = process_notebook(infile, outfile, demo=True)
+        images, data_urls = process_notebook(infile, outfile, demo=True, kernel=kernel)
         images_to_copy.extend(images)
         data_urls_to_check.extend(data_urls)
         shutil.copyfile(infile, m_path / notebook)
