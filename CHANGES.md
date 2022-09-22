@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.7 &mdash; in progress
+
+- Fixed [issue 20](https://github.com/agilescientific/kosu/issues/20), now checking that data files mentioned in the YAML are mentioned in the notebooks. (Not doing the reverse check, issue #25, because we mention other files in the notebooks that are not input data files.)
+
+
 ## 0.1.6 &mdash; 13 Jul 2022
 
 - Notebook kernel is changed to match the current course.

@@ -170,6 +170,8 @@ def process_notebook(infile,
     images = re.findall(r"\.\./images/([-_.a-zA-Z0-9]+)", text)
     # print(infile, images)
 
+    data_files = re.findall(r"\.\./data/([-_.a-zA-Z0-9]+)", text)
+
     if data_url_stem is None:
         data_url_stem = r"https://geocomp\.s3\.amazonaws\.com/data/"
     data_urls = re.findall(fr"({data_url_stem}[-_.a-zA-Z0-9]+)", text)
@@ -181,7 +183,7 @@ def process_notebook(infile,
     if clear_output:
         _ = os.system("nbstripout {}".format(outfile))
 
-    return images, data_urls
+    return images, data_urls, data_files
 
 if __name__ == "__main__":
     import argparse

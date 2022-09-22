@@ -17,7 +17,7 @@ We're fortunate to be part of a large professional community that conducts itsel
 
 ## Authorship
 
-If you contribute a pull request to the project and you wish to be identified as an author, please add yourself to `AUTHORS.md`.
+If you contribute a pull request to the project and you wish to be identified as an author, please add yourself to [`AUTHORS.md`](AUTHORS.md).
 
 
 ## License

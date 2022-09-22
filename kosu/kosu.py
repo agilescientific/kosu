@@ -8,6 +8,7 @@ import zipfile
 import os
 import warnings
 from urllib.request import urlretrieve
+import urllib
 import inspect
 import sys
 import glob
@@ -266,7 +267,7 @@ def build_course(course, clean, zip, upload, clobber):
     _ = path.mkdir(parents=True, exist_ok=True)
 
     # Build the notebooks; also deals with images.
-    *paths, _, data_urls_to_check = build_notebooks(path, config)
+    *paths, _, data_urls_to_check, data_files_to_check = build_notebooks(path, config)
 
     # Check the data files exist.
     click.secho('🧐 Checking and downloading data ', fg="cyan", nl=False)
@@ -275,8 +276,25 @@ def build_course(course, clean, zip, upload, clobber):
         if requests.head(url).status_code != 200:
             raise Exception(f"Missing data URL: {url}")
 
-    # Make the data directory.
+    # Make the data directory and check all local data files were requested in Yaml.
     build_data(path, config)
+
+    # Check the data files exist.
+    # Removing this for now, see issue #25.
+    # for fname in data_files_to_check:
+    #     click.secho('■', fg="cyan", nl=False)
+    #     if not (path.joinpath('data') / fname).exists():
+    #         raise Exception(f"Data file appears in notebook but not listed in course YAML: {fname}")
+
+    # Check the requested data files are used.
+    not_used = []
+    for fname in glob.glob(f'{path.joinpath("data")}/*'):
+        fname = fname.split('/')[-1]
+        if fname not in data_files_to_check:
+            not_used.append(fname)
+    if not_used:
+        raise Exception(f"Data file(s) appear in course YAML but not used in notebooks: {', '.join(not_used)}")
+
     click.secho()
 
     # Deal with scripts.
@@ -345,13 +363,15 @@ def build_notebooks(path, config):
     kernel = config.get('environment', config['course']).lower()
     images_to_copy = []
     data_urls_to_check = []
+    data_files_to_check = []
     click.secho('📔 Processing notebooks ', fg="cyan", nl=False)
     for notebook in notebooks:
         infile = pathlib.Path(KOSU['notebooks-source']) / notebook
         outfile = nb_path / notebook
-        images, data_urls = process_notebook(infile, outfile, kernel=kernel)
+        images, data_urls, data_paths = process_notebook(infile, outfile, kernel=kernel)
         images_to_copy.extend(images)
         data_urls_to_check.extend(data_urls)
+        data_files_to_check.extend(data_paths)
         shutil.copyfile(infile, m_path / notebook)
         # Clear the outputs in the master file.
         _ = os.system("nbstripout {}".format(m_path / notebook))
@@ -360,9 +380,10 @@ def build_notebooks(path, config):
     for notebook in notebooks:
         infile = pathlib.Path(KOSU['notebooks-source']) / notebook
         outfile = demo_path / notebook
-        images, data_urls = process_notebook(infile, outfile, demo=True, kernel=kernel)
+        images, data_urls, data_paths = process_notebook(infile, outfile, demo=True, kernel=kernel)
         images_to_copy.extend(images)
         data_urls_to_check.extend(data_urls)
+        data_files_to_check.extend(data_paths)
         shutil.copyfile(infile, m_path / notebook)
         # Clear the outputs in the master file.
         _ = os.system("nbstripout {}".format(m_path / notebook))
@@ -374,7 +395,7 @@ def build_notebooks(path, config):
         for image in images_to_copy:
             shutil.copyfile(pathlib.Path(KOSU['images-source']) / image, img_path / image)
 
-    return m_path, nb_path, demo_path, data_urls_to_check
+    return m_path, nb_path, demo_path, data_urls_to_check, data_files_to_check
 
 
 def build_environment(path, config):
@@ -443,7 +464,11 @@ def build_data(path, config):
             fpath = data_path / fname
             if not fpath.exists():
                 url = f"{data_url}{fname}"
-                urlretrieve(url, fpath)
+                try:
+                    urlretrieve(url, fpath)
+                except urllib.error.HTTPError as e:
+                    raise urllib.error.HTTPError(f"Could not retrieve {url}: {e}")
+
             if fpath.suffix == '.zip':
                 # Inflate and delete the zip.
                 with zipfile.ZipFile(fpath, 'r') as z:
